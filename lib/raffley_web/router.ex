@@ -28,6 +28,7 @@ defmodule RaffleyWeb.Router do
 
     live "/admin/raffles", AdminRaffleLive.Index
     live "/admin/raffles/new", AdminRaffleLive.Form
+    live "/admin/raffles/:id/edit", AdminRaffleLive.Edit
   end
 
   def spy(conn, _opts) do
