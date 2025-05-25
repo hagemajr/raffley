@@ -9,20 +9,12 @@ defmodule Raffley.Admin do
     |> Repo.all()
   end
 
-  def get_raffle!(id) do
-    Repo.get!(Raffle, id)
-  end
-
   def create_raffle(attrs \\ %{}) do
     %Raffle{}
     |> Raffle.changeset(attrs)
     |> Repo.insert()
   end
-
-  def change_raffle(%Raffle{} = raffle, attrs \\ %{}) do
-    Raffle.changeset(raffle, attrs)
-  end
-
+  
   def update_raffle(%Raffle{} = raffle, attrs) do
     raffle
     |> Raffle.changeset(attrs)
