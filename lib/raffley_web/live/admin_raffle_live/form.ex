@@ -5,7 +5,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
   import RaffleyWeb.CustomComponents
 
   def mount(_params, _session, socket) do
-    changeset = Raffle.changeset(%Raffle{}, %{})
+    changeset = Admin.change_raffle(%Raffle{})
 
     socket =
       socket
@@ -20,10 +20,10 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
     <.header>
       {@page_title}
     </.header>
-    <.simple_form for={@form} id="raffle-form" phx-submit="save">
+    <.simple_form for={@form} id="raffle-form" phx-submit="save" phx-change="validate">
       <.input field={@form[:prize]} label="Prize" />
-      <.input field={@form[:description]} type="textarea" label="Description" />
-      <.input field={@form[:ticket_price]} type="number" label="Ticket Price" />
+      <.input field={@form[:description]} type="textarea" label="Description" phx-debounce="blur" />
+      <.input field={@form[:ticket_price]} type="number" label="Ticket Price" phx-debounce="blur" />
       <.input
         field={@form[:status]}
         type="select"
@@ -55,5 +55,11 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
         socket = assign(socket, :form, to_form(changeset))
         {:noreply, socket}
     end
+  end
+
+  def handle_event("validate", %{"raffle" => raffle_params}, socket) do
+    changeset = Admin.change_raffle(%Raffle{}, raffle_params)
+    socket = assign(socket, :form, to_form(changeset, action: :validate))
+    {:noreply, socket}
   end
 end

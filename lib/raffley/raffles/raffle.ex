@@ -20,4 +20,5 @@ defmodule Raffley.Raffles.Raffle do
     |> validate_length(:description, min: 10)
     |> validate_number(:ticket_price, greater_than_or_equal_to: 1)
   end
+
 end
