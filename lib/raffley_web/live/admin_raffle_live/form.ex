@@ -2,7 +2,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
   use RaffleyWeb, :live_view
   alias Raffley.Admin
   alias Raffley.Raffles.Raffle
-  import RaffleyWeb.CustomComponents
+  # import RaffleyWeb.CustomComponents
 
   def mount(params, _session, socket) do
     {:ok, apply_action(socket, socket.assigns.live_action, params)}

@@ -40,7 +40,6 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
         id="raffles"
         rows={@streams.raffles}
         row_click={fn {_, raffle} -> JS.navigate(~p"/raffles/#{raffle.id}") end}
-        phx-mounted={JS.transition("fade-in-scale", time: 500)}
       >
         <:col :let={{_dom_id, raffle}} label="Prize">
           <.link navigate={~p"/raffles/#{raffle.id}"}>
