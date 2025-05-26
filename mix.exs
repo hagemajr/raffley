@@ -33,6 +33,7 @@ defmodule Raffley.MixProject do
   defp deps do
     [
       {:phoenix, "~> 1.7.21"},
+      # {:phoenix, github: "phoenixframework/phoenix", ref: "05d21a8", override: true},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},

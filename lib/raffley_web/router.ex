@@ -29,6 +29,11 @@ defmodule RaffleyWeb.Router do
     live "/admin/raffles", AdminRaffleLive.Index
     live "/admin/raffles/new", AdminRaffleLive.Form, :new
     live "/admin/raffles/:id/edit", AdminRaffleLive.Form, :edit
+
+    live "/charities", CharityLive.Index, :index
+    live "/charities/new", CharityLive.Form, :new
+    live "/charities/:id", CharityLive.Show, :show
+    live "/charities/:id/edit", CharityLive.Form, :edit
   end
 
   def spy(conn, _opts) do
@@ -41,9 +46,13 @@ defmodule RaffleyWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", RaffleyWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", RaffleyWeb.Api do
+    pipe_through :api
+
+    get "/raffles", RaffleController, :index
+    get "/raffles/:id", RaffleController, :show
+    post "/raffles", RaffleController, :create
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:raffley, :dev_routes) do
