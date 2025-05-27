@@ -26,7 +26,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
         Toggle Joke
       </.button>
       <div class="joke hidden" id="joke">
-        What's a tree's favorite drink?
+        What's a tree's favorite drink, {@current_user.username}?
       </div>
       <.header class="mt-6">
         {@page_title}

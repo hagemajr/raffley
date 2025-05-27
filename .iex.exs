@@ -5,3 +5,4 @@ alias Raffley.Raffles.Raffle
 import Ecto.Query
 import Ecto.Changeset
 alias Raffley.Charities.Charity
+alias Raffley.Accounts.User
