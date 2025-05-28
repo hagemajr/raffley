@@ -350,4 +350,20 @@ defmodule Raffley.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  def promote_to_admin(%User{} = user) do
+    user
+    |> Ecto.Changeset.change(%{is_admin: true})
+    |> Repo.update()
+  end
+
+  def get_admin_by_email(email) do
+    query =
+      from u in User,
+        where:
+          u.is_admin == true and
+            fragment("lower(?)", u.email) == ^String.downcase(email)
+
+    Repo.one(query)
+  end
 end

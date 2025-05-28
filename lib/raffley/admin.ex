@@ -32,4 +32,9 @@ defmodule Raffley.Admin do
   def delete_raffle(%Raffle{} = raffle) do
     Repo.delete(raffle)
   end
+
+  def get_raffle_with_tickets!(id) do
+    get_raffle!(id)
+    |> Repo.preload(tickets: :user)
+  end
 end

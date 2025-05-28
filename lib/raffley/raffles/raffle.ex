@@ -10,6 +10,14 @@ defmodule Raffley.Raffles.Raffle do
     field :image_path, :string, default: "/images/placeholder.jpg"
 
     belongs_to :charity, Raffley.Charities.Charity
+    has_many :tickets, Raffley.Tickets.Ticket, preload_order: [desc: :inserted_at]
+
+    # Can use this via Ecto
+    # raffle =
+    #   Repo.get!(Raffle, 1)
+    #   |> Repo.preload(:ticket_users)
+
+    has_many :ticket_users, through: [:tickets, :user]
 
     timestamps(type: :utc_datetime)
   end

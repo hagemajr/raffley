@@ -14,6 +14,11 @@ defmodule RaffleyWeb.Router do
     plug :spy
   end
 
+  pipeline :admin do
+    plug :require_authenticated_user
+    plug :require_admin
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -31,10 +36,13 @@ defmodule RaffleyWeb.Router do
   end
 
   scope "/", RaffleyWeb do
-    pipe_through [:browser, :require_authenticated_user]
+    pipe_through [:browser, :admin]
 
     live_session :admin,
-      on_mount: {RaffleyWeb.UserAuth, :ensure_authenticated} do
+      on_mount: [
+        {RaffleyWeb.UserAuth, :ensure_authenticated},
+        {RaffleyWeb.UserAuth, :ensure_admin}
+      ] do
       live "/admin/raffles", AdminRaffleLive.Index
       live "/admin/raffles/new", AdminRaffleLive.Form, :new
       live "/admin/raffles/:id/edit", AdminRaffleLive.Form, :edit

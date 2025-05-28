@@ -2,6 +2,7 @@ alias Raffley.Repo
 alias Raffley.Raffles
 alias Raffley.Admin
 alias Raffley.Raffles.Raffle
+alias Raffley.Tickets.Ticket
 import Ecto.Query
 import Ecto.Changeset
 alias Raffley.Charities.Charity

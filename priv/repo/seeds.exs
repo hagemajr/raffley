@@ -174,34 +174,3 @@ grace =
 }
 |> Repo.insert!()
 
-# Generate another seed to insert a Raffle including some tickets
-
-# Insert a raffle with tickets for testing/demo purposes
-raffle_with_tickets =
-  %Raffle{
-    prize: "Test Raffle with Tickets",
-    description: "A raffle created for testing purposes with some tickets.",
-    ticket_price: 2,
-    status: :open,
-    image_path: "/images/test-raffle.jpg",
-    charity: hope
-  }
-  |> Repo.insert!()
-
-# Insert some tickets for the raffle
-alias Raffley.Tickets.Ticket
-alias Raffley.Accounts.User
-
-# For demo, create some fake users and tickets
-users = [
-  %Raffley.Accounts.User{email: "user1@example.com", username: "user1", password: "password1234"},
-  %Raffley.Accounts.User{email: "user2@example.com", username: "user2", password: "password1234"},
-  %Raffley.Accounts.User{email: "user3@example.com", username: "user3", password: "password1234"}
-]
-
-# Insert users and tickets
-Enum.each(users, fn user_attrs ->
-  user = Raffley.Repo.insert!(Raffley.Accounts.User.registration_changeset(%Raffley.Accounts.User{}, Map.from_struct(user_attrs)))
-  %Ticket{raffle: raffle_with_tickets, user: user, price: raffle_with_tickets.ticket_price, comment: "Excited to win!"}
-  |> Raffley.Repo.insert!()
-end)
