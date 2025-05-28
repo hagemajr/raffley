@@ -173,3 +173,5 @@ grace =
   charity: wildlife
 }
 |> Repo.insert!()
+
+# Generate another seed to insert a Raffle including some tickets AI!
