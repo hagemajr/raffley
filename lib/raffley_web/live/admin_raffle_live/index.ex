@@ -52,12 +52,20 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
         <:col :let={{_dom_id, raffle}} label="Ticket Price">
           ${raffle.ticket_price}
         </:col>
+        <:col :let={{_dom_id, raffle}} label="Winning Ticket">
+          {raffle.winning_ticket_id}
+        </:col>
         <:action :let={{_dom_id, raffle}}>
           <.link navigate={~p"/admin/raffles/#{raffle}/edit"}>Edit</.link>
         </:action>
         <:action :let={{dom_id, raffle}}>
           <.link phx-click={delete_and_hide(dom_id, raffle)} data-confirm="Are you sure?">
             Delete
+          </.link>
+        </:action>
+        <:action :let={{_dom_id, raffle}}>
+          <.link phx-click="draw-winner" phx-value-id={raffle.id}>
+            Draw Winner
           </.link>
         </:action>
       </.table>
@@ -69,6 +77,27 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
     raffle = Admin.get_raffle!(id)
     {:ok, _} = Admin.delete_raffle(raffle)
     {:noreply, stream_delete(socket, :raffles, raffle)}
+  end
+
+  def handle_event("draw-winner", %{"id" => id}, socket) do
+    raffle = Admin.get_raffle!(id)
+
+    case Admin.draw_winner(raffle) do
+      {:ok, raffle} ->
+        socket =
+          socket
+          |> put_flash(:info, "Winning ticket drawn!")
+          |> stream_insert(:raffles, raffle)
+
+        {:noreply, socket}
+
+      {:error, error} ->
+        socket =
+          socket
+          |> put_flash(:error, error)
+
+        {:noreply, socket}
+    end
   end
 
   def delete_and_hide(js \\ %JS{}, dom_id, raffle) do

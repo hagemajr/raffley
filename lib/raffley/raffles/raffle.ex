@@ -11,6 +11,7 @@ defmodule Raffley.Raffles.Raffle do
 
     belongs_to :charity, Raffley.Charities.Charity
     has_many :tickets, Raffley.Tickets.Ticket, preload_order: [desc: :inserted_at]
+    belongs_to :winning_ticket, Raffley.Tickets.Ticket
 
     # Can use this via Ecto
     # raffle =
@@ -25,7 +26,15 @@ defmodule Raffley.Raffles.Raffle do
   @doc false
   def changeset(raffle, attrs) do
     raffle
-    |> cast(attrs, [:prize, :description, :ticket_price, :status, :image_path, :charity_id])
+    |> cast(attrs, [
+      :prize,
+      :description,
+      :ticket_price,
+      :status,
+      :image_path,
+      :charity_id,
+      :winning_ticket_id
+    ])
     |> validate_required([:prize, :description, :ticket_price, :status, :image_path, :charity_id])
     |> validate_length(:description, min: 10)
     |> validate_number(:ticket_price, greater_than_or_equal_to: 1)
